@@ -22,6 +22,7 @@ class App extends Component{
   async componentDidMount() {
     const API_AGENT_URL = `https://enigmatic-depths-90458.herokuapp.com/agent`;
     const API_PROPERTY_URL = `https://enigmatic-depths-90458.herokuapp.com/property-type`;
+    const API_SALES_URL = `https://enigmatic-depths-90458.herokuapp.com/property-sales`;
     let responseAgent = await axios.get(API_AGENT_URL);
     let responseProperty = await axios.get(API_PROPERTY_URL);
     this.setState({agents: responseAgent.data, property: responseProperty.data});
