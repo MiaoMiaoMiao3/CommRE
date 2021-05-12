@@ -27,10 +27,5 @@ I opted to use Bootstrap for basic table styling, this is included as a dependen
 The two child components that I made were the results table that displays each Agent's total sales (ResultsTable) and the Pie chart that would be re-rendered when an agent's name is selected in the table (PieChart). \
 \
 'App' is a parent component where all methods for determining specific property sales are determined and updated as state parameters. These are then passed down as props in the children components ("downward data flow" design pattern).\
-
-## NOTE
- This command will run the app in development mode.\
-Alternatively, open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-
+\
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
