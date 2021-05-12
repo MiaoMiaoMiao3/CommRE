@@ -1,7 +1,13 @@
-.App {
-  max-width: 50%;
+.App{
+  display: flex;
 }
 
 .App-table-row:hover{
   cursor:pointer
+}
+
+@media(min-width: 300px) and (max-width: 899px) {
+  .App{
+    display: inline;
+  }
 }

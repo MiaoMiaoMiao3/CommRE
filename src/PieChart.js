@@ -6,8 +6,8 @@ class PieChart extends Component{
         
         return(
             <Chart
-                width={'50em'}
-                height={'40em'}
+                width={'25em'}
+                height={'25em'}
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={this.props.chartInput}

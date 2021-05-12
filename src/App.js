@@ -18,9 +18,10 @@ class App extends Component{
     this.handleClick = this.handleClick.bind(this);
   }
 
+  // Retrieve data from API and set data for first render
   async componentDidMount() {
-    const API_AGENT_URL = `http://localhost:3100/agent`;
-    const API_PROPERTY_URL = `http://localhost:3100/property-type`;
+    const API_AGENT_URL = `https://enigmatic-depths-90458.herokuapp.com/agent`;
+    const API_PROPERTY_URL = `https://enigmatic-depths-90458.herokuapp.com/property-type`;
     let responseAgent = await axios.get(API_AGENT_URL);
     let responseProperty = await axios.get(API_PROPERTY_URL);
     this.setState({agents: responseAgent.data, property: responseProperty.data});
@@ -28,6 +29,7 @@ class App extends Component{
     this.calcDetailedSale(this.state.targetAgent)
   }
 
+  // Calculate total sales for each type of property and return as an array as required for plotting
   calcDetailedSale (targetAgent){
     let detailedSale = {};
     let newChartInput = [["Property", "Sales"]];
@@ -49,6 +51,7 @@ class App extends Component{
     });
     }
 
+// Calculate the total sales for each agent
     calcTotal (){
       let totalSale = {};
       let agents = this.state.agents;
@@ -63,16 +66,16 @@ class App extends Component{
       return agentTotal;
     }
 
+// Update chart whenever a table row is clicked
     handleClick(e){
-      console.log(e.target.parentElement.firstChild.innerHTML)
-      // this.calcDetailedSale(e.target.parentElement.firstChild.innerHTML);
-
+      this.calcDetailedSale(e.target.parentElement.firstChild.innerHTML);
     }
+    
     render(){
       let totalSale = this.calcTotal();
       
       return(
-        <div>
+        <div className="App">
           <ResultsTable totalSale={totalSale} handleClick = {this.handleClick}/>
           <PieChart agent={this.state.targetAgent} chartInput={this.state.chartInput}/>
         </div>

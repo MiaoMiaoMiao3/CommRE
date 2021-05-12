@@ -1,0 +1,13 @@
+.ResultsTable {
+    width: 40%;
+  }
+.ResultsTable-table {
+    position: relative;
+    top: 20%;
+}
+
+@media(min-width: 300px) and (max-width: 899px) {
+    .ResultsTable{
+      width:100%;
+    }
+  }
