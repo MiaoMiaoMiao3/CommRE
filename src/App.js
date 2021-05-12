@@ -1,9 +1,11 @@
 import './App.css';
+import './PieChart';
+import PieChart from './PieChart';
 
 function App() {
   return (
     <div className="App">
-        Testing!
+        <PieChart/>
     </div>
   );
 }
