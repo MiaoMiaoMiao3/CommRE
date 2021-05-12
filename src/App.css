@@ -1,8 +1,7 @@
 .App {
-  text-align: center;
-  display:flex;
+  max-width: 50%;
 }
 
-.App-table-data:hover{
+.App-table-row:hover{
   cursor:pointer
 }

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import './App.css';
 import axios from "axios";
 import PieChart from './PieChart';
+import ResultsTable from './ResultsTable';
 
 class App extends Component{
   constructor(props) {
@@ -23,7 +24,8 @@ class App extends Component{
     let responseAgent = await axios.get(API_AGENT_URL);
     let responseProperty = await axios.get(API_PROPERTY_URL);
     this.setState({agents: responseAgent.data, property: responseProperty.data});
-    this.calcDetailedSale("steve")
+    this.setState({targetAgent:this.state.agents[0]})
+    this.calcDetailedSale(this.state.targetAgent)
   }
 
   calcDetailedSale (targetAgent){
@@ -42,7 +44,8 @@ class App extends Component{
       newChartInput.push([key,value]);
     }
     this.setState({
-      chartInput: newChartInput
+      chartInput: newChartInput,
+      targetAgent: targetAgent
     });
     }
 
@@ -61,30 +64,17 @@ class App extends Component{
     }
 
     handleClick(e){
-      this.calcDetailedSale(e.target.innerText);
+      console.log(e.target.parentElement.firstChild.innerHTML)
+      // this.calcDetailedSale(e.target.parentElement.firstChild.innerHTML);
 
     }
     render(){
       let totalSale = this.calcTotal();
       
       return(
-        <div className="App">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Agent</th>
-                <th scope="col">Sales</th>
-              </tr>
-            </thead>
-            <tbody>
-              {totalSale.map(m=>
-                <tr>
-                  <td className="App-table-data" onClick={this.handleClick}>{m[0]}</td>
-                  <td>{m[1]}</td>
-                </tr>)}
-            </tbody>
-          </table>
-          <PieChart agent="steve" chartInput={this.state.chartInput}/>
+        <div>
+          <ResultsTable totalSale={totalSale} handleClick = {this.handleClick}/>
+          <PieChart agent={this.state.targetAgent} chartInput={this.state.chartInput}/>
         </div>
             
         )
