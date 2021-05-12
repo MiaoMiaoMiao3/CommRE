@@ -8,8 +8,10 @@ class App extends Component{
     super(props);
     this.state = {
       agents: [],
-      property:[]
+      property:[],
+      chartInput:[]
     }
+    this.calcDetailedSale = this.calcDetailedSale.bind(this);
     this.calcTotal = this.calcTotal.bind(this);
   }
 
@@ -19,28 +21,65 @@ class App extends Component{
     let responseAgent = await axios.get(API_AGENT_URL);
     let responseProperty = await axios.get(API_PROPERTY_URL);
     this.setState({agents: responseAgent.data, property: responseProperty.data});
+    this.calcDetailedSale("steve")
   }
 
-  calcTotal (targetAgent){
-    let totalCount = {};
+  calcDetailedSale (targetAgent){
+    let detailedSale = {};
+    let newChartInput = [["Property", "Sales"]];
     let property = this.state.property
     let agents = this.state.agents
 
     for(let i =0; i<agents.length; i++){
-        if(agents[i] === targetAgent){
+      if(agents[i] === targetAgent){
+          detailedSale[property[i]]? detailedSale[property[i]]++ : detailedSale[property[i]]=1;
+          }}
 
-            totalCount[property[i]]? totalCount[property[i]]++ : totalCount[property[i]]=1;
-            
-            }
-        }
-        return totalCount
+
+    for (const [key, value] of Object.entries(detailedSale)) {
+      newChartInput.push([key,value]);
+    }
+    this.setState({
+      chartInput: newChartInput
+    });
     }
 
+    calcTotal (){
+      let totalSale = {};
+      let agents = this.state.agents;
+      let agentTotal=[];
 
+      for(let i =0; i<agents.length; i++){
+        totalSale[agents[i]]? totalSale[agents[i]]++ : totalSale[agents[i]]=1;
+      }
+      for (const [key, value] of Object.entries(totalSale)) {
+        agentTotal.push([key,value])
+      }
+      return agentTotal;
+    }
     render(){
-      console.log(this.calcTotal("steve"));
+      let totalSale = this.calcTotal();
+      
       return(
-            <PieChart agents = {this.state.agents} property = {this.state.property}/>
+        <div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Agent</th>
+                <th scope="col">Sales</th>
+              </tr>
+            </thead>
+            <tbody>
+              {totalSale.map(m=>
+                <tr>
+                  <td>{m[0]}</td>
+                  <td>{m[1]}</td>
+                </tr>)}
+            </tbody>
+          </table>
+          <PieChart agent="steve" chartInput={this.state.chartInput}/>
+        </div>
+            
         )
     }
 }
