@@ -9,10 +9,12 @@ class App extends Component{
     this.state = {
       agents: [],
       property:[],
-      chartInput:[]
+      chartInput:[],
+      targetAgent:""
     }
     this.calcDetailedSale = this.calcDetailedSale.bind(this);
     this.calcTotal = this.calcTotal.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
@@ -57,11 +59,16 @@ class App extends Component{
       }
       return agentTotal;
     }
+
+    handleClick(e){
+      this.calcDetailedSale(e.target.innerText);
+
+    }
     render(){
       let totalSale = this.calcTotal();
       
       return(
-        <div>
+        <div className="App">
           <table className="table">
             <thead>
               <tr>
@@ -72,7 +79,7 @@ class App extends Component{
             <tbody>
               {totalSale.map(m=>
                 <tr>
-                  <td>{m[0]}</td>
+                  <td className="App-table-data" onClick={this.handleClick}>{m[0]}</td>
                   <td>{m[1]}</td>
                 </tr>)}
             </tbody>
